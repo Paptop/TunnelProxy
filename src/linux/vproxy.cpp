@@ -32,15 +32,15 @@ std::ofstream log_file;
 
 void assemble_sockaddr(struct sockaddr_in* addr, const char* ip, int port)
 { 
-  bzero((char*) addr, sizeof(*addr));
-  addr->sin_family = AF_INET;
-  
-  if(port > 0)
-  { 
-    addr->sin_port = htons(port);
-  }
-  
-  inet_aton(ip, &addr->sin_addr);
+	bzero((char*) addr, sizeof(*addr));
+	addr->sin_family = AF_INET;
+	
+	if(port > 0)
+	{
+		addr->sin_port = htons(port);
+	}
+	
+	inet_aton(ip, &addr->sin_addr);
 }
 
 int open_dev(const char* dev, int flags, const char* ip)
@@ -110,34 +110,34 @@ int open_tap(const char* dev, const char* ip)
 
 int open_socket_udp(const char* ip, int port)
 {
-  struct sockaddr_in tun_addr;
-  int sfd;
-
-  assemble_sockaddr(&tun_addr, ip, port);
-
-  if((sfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
-  {
-    perror("Failed opening socket");
-    exit(1);
-  }
-
-  if(bind(sfd, (struct sockaddr*) &tun_addr, sizeof(tun_addr)) < 0)
-  {
-    perror("Failed binding");
-    exit(1);
-  }
-
+	struct sockaddr_in tun_addr;
+	int sfd;
+	
+	assemble_sockaddr(&tun_addr, ip, port);
+	
+	if((sfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+	{
+		perror("Failed opening socket");
+		exit(1);
+	}
+	
+	if(bind(sfd, (struct sockaddr*) &tun_addr, sizeof(tun_addr)) < 0)
+	{
+		perror("Failed binding");
+		exit(1);
+	}
+	
 	return sfd;
 }
 
 void read_socket_to_console(int fd)
 {
-  int nread = 0;
-  uchar buffer[BUFFSIZE];
+	int nread = 0;
+	uchar buffer[BUFFSIZE];
 	uint packet_counter = 0;
-  
-  while(1)
-  {
+	
+	while(1)
+	{
 		nread = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
 		
 		if(nread < 0)
@@ -146,15 +146,15 @@ void read_socket_to_console(int fd)
 			close(fd);
 			break;
 		} 
-
+		
 		const std::string& info = assemble_packet_info(buffer, nread, packet_counter);
 		std::cout << info;
-
+		
 		if(log_file.is_open())
 		{
 			log_file << info;
 		}
-
+		
 		packet_counter++;
 	} 
 }
