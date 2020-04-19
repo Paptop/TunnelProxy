@@ -110,6 +110,47 @@ void open_socket(const char* ip, int port)
 		perror("Failed binding");
 		exit(1);
 	}
+
+	int nread = 0;
+	char buffer[BUFFSIZE];
+
+	while(1)
+	{
+		nread = recvfrom(sfd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
+		if(nread < 0)
+		{
+			perror("Reading from interface");
+			close(sfd);
+			exit(1);
+		}
+
+		printf("\n");
+		printf("-------SIZE---------\n");
+		printf(" Size: %d bytes \n", nread);
+		printf("-------BINARY-------\n");
+		for(int i = 0; i < nread; ++i)
+		{	
+			 printf("%02x:",buffer[i]);
+
+		   if( (i + 1) % 16 == 0 )
+			 {
+					printf("\n"); 
+			 }
+		}
+		printf("\n");
+		printf("-------ASCII-------\n");
+		for(int i = 0; i < nread; ++i)
+		{
+			 printf("%c",buffer[i]);
+
+		   if( (i + 1)  % 16 == 0 && i)
+			 {
+					printf("\n"); 
+			 }
+		}
+		printf("-------------------\n");
+		printf("\n");
+	}
 }
 
 int main(int argc, char** argv)
@@ -137,14 +178,19 @@ int main(int argc, char** argv)
 
 	printf("Tun_alloc\n");
 
-	tunfd = tun_alloc(tun_name, IFF_TAP | IFF_UP, ip, iPort);
+  //tunfd = tun_alloc(tun_name, IFF_TAP | IFF_UP, ip, iPort);
 
+	/*
 	if(tunfd < 0)
 	{
 		perror("Allocationg interface");
 		exit(1);
 	}
+	*/
 
+  open_socket(ip, iPort);	
+
+	/*
 	int nread;
 
 	while(1)
@@ -159,6 +205,7 @@ int main(int argc, char** argv)
 
 		printf("Read %d bytes from device %s\n", nread, tun_name);
 	}
+	*/
 
 
 	return 0;
