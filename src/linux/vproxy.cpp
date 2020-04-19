@@ -138,14 +138,14 @@ void read_socket_to_console(int fd)
   
   while(1)
   {
-    nread = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
-
-    if(nread < 0)
-    {
-      perror("error reading from interface");
-      close(fd);
+		nread = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
+		
+		if(nread < 0)
+		{
+			perror("error reading from interface");
+			close(fd);
 			break;
-    } 
+		} 
 
 		const std::string& info = assemble_packet_info(buffer, nread, packet_counter);
 		std::cout << info;
@@ -156,7 +156,7 @@ void read_socket_to_console(int fd)
 		}
 
 		packet_counter++;
-  } 
+	} 
 }
 
 void close_fd(int fd) { close(fd); }
