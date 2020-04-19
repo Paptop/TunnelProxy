@@ -26,3 +26,6 @@ enp4s0 or eth0 (depends on your default network configuration)
 ```
 ./configure.sh enp4s0 11.11.11.11 1080
 ```
+### Running program
+1) You need to configure first time installation first  
+2) After that you can simply run
