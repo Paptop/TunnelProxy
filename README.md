@@ -36,6 +36,8 @@ sudo ./tunproxy 11.11.11.11 1080
 
 ```
 ### After running program you should see following udp packet flow
+Program logs incoming traffic to log.txt file.  
+Every time you restart the program log.txt cleans itself.  
 ```
 *------------------------------------------------*
 |          RECEIVED PACKET: 0                    |
