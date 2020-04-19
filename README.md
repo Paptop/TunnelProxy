@@ -11,7 +11,10 @@ tested on kernel version 4.15.0-96-generic
 ## Getting started
 
 ### Installing first time
-** Note make sure /dev/net/tun device is present and is rw according to documentation **
+
+Dependencies  
+Note make sure /dev/net/tun device is present and is rw according to documentation
+
 1) Compile the program via make
 ```
 make
