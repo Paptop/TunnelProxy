@@ -2,6 +2,7 @@
  * LINUX implementation of system calls
  */
 #include "vproxy.h"
+#include "vutils.h"
 
 #include <linux/if.h>
 #include <linux/if_tun.h>
@@ -13,9 +14,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <iostream>
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+
 #include <cstring>
+
 #include <signal.h>
 
 #define BUFFSIZE 2000
@@ -123,44 +129,22 @@ int open_socket_udp(const char* ip, int port)
 void read_socket_to_console(int fd)
 {
   int nread = 0;
-  char buffer[BUFFSIZE];
+  uchar buffer[BUFFSIZE];
+	uint packet_counter = 0;
   
   while(1)
   {
     nread = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
     if(nread < 0)
     {
-      perror("Reading from interface");
+      perror("error reading from interface");
       close(fd);
       exit(1);
     } 
-    
-    printf("\n");
-    printf("-------SIZE---------\n");
-    printf(" Size: %d bytes \n", nread);
-    printf("-------BINARY-------\n");
-    for(int i = 0; i < nread; ++i)
-    { 
-       printf("%02x:",buffer[i]);
 
-       if( (i + 1) % 16 == 0 )
-       {
-          printf("\n");
-       }
-    }
-    printf("\n");
-    printf("-------ASCII-------\n");
-    for(int i = 0; i < nread; ++i)
-    {
-       printf("%c",buffer[i]);
-
-       if( (i + 1)  % 16 == 0 && i)
-       {
-          printf("\n");
-       }
-    }
-    printf("-------------------\n");
-    printf("\n");
+		const std::string& info = assemble_packet_info(buffer, nread, packet_counter);
+		std::cout << info;
+		packet_counter++;
   } 
 }
 
