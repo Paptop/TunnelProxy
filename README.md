@@ -10,7 +10,7 @@ chmod +x print_default_interface.sh
 ./print_default_interface.sh
 
 (E.g output)
-enp4s0 or eth0 (depends on your default network configuration
+enp4s0 or eth0 (depends on your default network configuration)
 ```
 3) Next If you are setting up program for the first time configure.sh needs to be called
 
