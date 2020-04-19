@@ -34,7 +34,7 @@ sudo ./configure.sh enp4s0 11.11.11.11 1080
 sudo ./tunproxy 11.11.11.11 1080
 
 ```
-### After running program you should see following packet flow
+### After running program you should see following udp packet flow
 ```
 *------------------------------------------------*
 |          RECEIVED PACKET: 0                    |
