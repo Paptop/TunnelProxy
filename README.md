@@ -1,2 +1,5 @@
 # TunnelProxy
 ### Installing
+```
+make
+```
