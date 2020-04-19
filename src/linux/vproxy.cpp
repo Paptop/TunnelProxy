@@ -129,13 +129,13 @@ int open_socket_udp(const char* ip, int port)
 	if((sfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
 	{
 		perror("Failed opening socket");
-		exit(1);
+		return -1;
 	}
 	
 	if(bind(sfd, (struct sockaddr*) &tun_addr, sizeof(tun_addr)) < 0)
 	{
 		perror("Failed binding");
-		exit(1);
+		return -1;
 	}
 	
 	return sfd;

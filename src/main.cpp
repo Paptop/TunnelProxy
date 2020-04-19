@@ -36,9 +36,8 @@ int main(int argc, char** argv)
 	const int iPort = atoi(port);
 
 	printf("Opening tap device on %s\n", ip);
-	tapfd = open_tap("tap0", ip);
 
-	if(tapfd < 0)
+	if( (tapfd = open_tap("tap0", ip)) < 0)
 	{
 		perror("Error opening tap interface");
 		clean();
@@ -46,7 +45,14 @@ int main(int argc, char** argv)
 	}
 
 	printf("Opening port on tap device %s:%s\n", ip, port);
-	fds = open_socket_udp(ip, iPort);	
+
+	if( (fds = open_socket_udp(ip, iPort)) < 0)
+	{
+		perror("Error opening udp socket");
+		clean();
+		exit(1);
+	};
+
 	read_socket_to_console(fds);
 
 	clean();
