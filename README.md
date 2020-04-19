@@ -23,4 +23,3 @@ enp4s0 or eth0 (depends on your default network configuration)
 ```
 ./configure.sh enp4s0 11.11.11.11 1080
 ```
-After executing this command it will setup the network for the proxy to monitor traffic
