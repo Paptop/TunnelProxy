@@ -1,2 +1,2 @@
 # TunnelProxy
-**Setting up
+### Installing
