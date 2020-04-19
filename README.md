@@ -1,4 +1,10 @@
 # TunnelProxy
+# OS: Linux
+
+Tested on
+NAME="Ubuntu"
+VERSION="18.04.4 LTS (Bionic Beaver)"
+tested on kernel version 4.15.0-96-generic
 
 ## Issues
 **Only works with wired connection for now. Don't test on wifi. Because wifi has problems bridging. More time needed**
