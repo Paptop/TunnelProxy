@@ -8,55 +8,55 @@
 
 std::string make_readable_format(const uchar* buffer, int size, bool bhex)
 {
-    std::ostringstream ss;
-    const int column_size = 8;
-    const int line_size = column_size * 2;
-    const std::string& line = make_line(); 
+	std::ostringstream ss;
+	const int column_size = 8;
+	const int line_size = column_size * 2;
+	const std::string& line = make_line(); 
 
-    ss << "|";
-    
-    for(int i = 0; i < size; ++i)
-    {
-        const bool is_last_byte = (i + 1) % line_size == 0;
-        const bool is_the_middle = !is_last_byte && (i + 1) % column_size == 0;
-
-    if(bhex)
-    {
-        ss << std::hex;
-        ss << std::setfill('0');
-    }
-
-    ss << std::setw(2);
-
-    if(bhex)
-    {
-        ss << (uint)buffer[i];
-    }
-    else if(isalnum(buffer[i]))
-    {
-        ss << (char)buffer[i];
-    }
-    else
-    {
-        ss << ".";
-    }
-
-	if(!is_last_byte)
+	ss << "|";
+		
+	for(int i = 0; i < size; ++i)
 	{
-		ss << " ";
-	}
-	else
-	{
-        ss << "|" << std::endl << "|";
+		const bool is_last_byte = (i + 1) % line_size == 0;
+		const bool is_the_middle = !is_last_byte && (i + 1) % column_size == 0;
+
+		if(bhex)
+		{
+			ss << std::hex;
+			ss << std::setfill('0');
+		}
+
+		ss << std::setw(2);
+
+		if(bhex)
+		{
+			ss << (uint)buffer[i];
+		}
+		else if(isalnum(buffer[i]))
+		{
+			ss << (char)buffer[i];
+		}
+		else
+		{
+			ss << ".";
+		}
+
+		if(!is_last_byte)
+		{
+			ss << " ";
+		}
+		else
+		{
+			ss << "|" << std::endl << "|";
+		}
+
+		if(is_the_middle)
+		{
+			ss << "  ";
+		}
 	}
 
-    if(is_the_middle)
-    {
-        ss << "  ";
-    }
-  }
-
-  ss << std::endl;
+	ss << std::endl;
 	ss << line;
 
 	return std::move(ss.str());
