@@ -1,5 +1,5 @@
 # TunnelProxy
-### Installing
+### Installing first time
 1) Compile the program via make
 ```
 make
@@ -14,4 +14,12 @@ enp4s0 or eth0 (depends on your default network configuration)
 ```
 3) Next If you are setting up program for the first time configure.sh needs to be called
 
+It will create tap device
+It will create bridge between your default network device and virtual tap device.
+It will define iptable prerouting rules in order to filter udp
+It will automatically run the c++ program which will print the incoming packets
+
 ```
+./configure.sh enp4s0 11.11.11.11 1080
+```
+After executing this command it will setup the network for the proxy to monitor traffic
