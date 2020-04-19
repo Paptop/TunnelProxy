@@ -17,5 +17,5 @@ ip link set tap0 master tapbr
 #add to route
 route add default gw 192.168.0.1 dev tapbr 
 
-#configure udp
-#iptables -A INPUT -i tap0 -p udp -j ACCEPT
+#forward packets to udp port
+sudo iptables -t nat -A PREROUTING -i tapbr -p udp -j DNAT --to-destination 10.10.10.10:1080
