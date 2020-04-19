@@ -20,7 +20,7 @@ enp4s0 or eth0 (depends on your default network configuration)
   
   It will automatically run the c++ program which will print the incoming packets
   
-  **it needs to run in kernel mode**
+  **it needs to run in kernel mode**  
   **first parameter is your default network device, see the step 2**
 
 ```
