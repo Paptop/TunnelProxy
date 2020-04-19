@@ -19,6 +19,7 @@ enp4s0 or eth0 (depends on your default network configuration)
   It will create bridge with the default network device and configure routing.
   
   It will automatically run the c++ program which will print the incoming packets
+  *first parameter is your default network device, see the step 2
 
 ```
 ./configure.sh enp4s0 11.11.11.11 1080
