@@ -1,4 +1,7 @@
 # TunnelProxy
+
+## Getting started
+
 ### Installing first time
 1) Compile the program via make
 ```
@@ -13,11 +16,9 @@ chmod +x print_default_interface.sh
 enp4s0 or eth0 (depends on your default network configuration)
 ```
 3) Next If you are setting up program for the first time configure.sh needs to be called
-
-It will create tap device
-It will create bridge between your default network device and virtual tap device.
-It will define iptable prerouting rules in order to filter udp
-It will automatically run the c++ program which will print the incoming packets
+  It will create bridge with the default network device and configure routing.
+  
+  It will automatically run the c++ program which will print the incoming packets
 
 ```
 ./configure.sh enp4s0 11.11.11.11 1080
