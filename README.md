@@ -1,5 +1,6 @@
 # TunnelProxy
 
+**Only works with wired connection for now. Don't test on wifi. Because wifi has problems bridging. More time needed**
 ## Getting started
 
 ### Installing first time
