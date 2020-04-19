@@ -10,4 +10,7 @@ void close_fd(int fd);
 
 void on_sys_signal(void (*handler)(int));
 
+void open_log_file();
+void close_log_file();
+
 #endif //VPROXY_H

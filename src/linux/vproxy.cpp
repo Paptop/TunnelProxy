@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <fstream>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +26,9 @@
 #include <signal.h>
 
 #define BUFFSIZE 2000
+
+//used for logging
+std::ofstream log_file;
 
 void assemble_sockaddr(struct sockaddr_in* addr, const char* ip, int port)
 { 
@@ -135,15 +139,23 @@ void read_socket_to_console(int fd)
   while(1)
   {
     nread = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
+
     if(nread < 0)
     {
       perror("error reading from interface");
       close(fd);
-      exit(1);
+			break;
     } 
 
 		const std::string& info = assemble_packet_info(buffer, nread, packet_counter);
 		std::cout << info;
+
+		if(log_file.is_open())
+		{
+			printf("Pushing to log file ...\n");
+			log_file << info;
+		}
+
 		packet_counter++;
   } 
 }
@@ -158,3 +170,19 @@ void on_sys_signal(void (*handler)(int))
 	signal(SIGSTOP, handler);
 	signal(SIGINT,  handler);
 }
+
+void open_log_file()
+{
+	log_file.open("log.txt", std::ios::out | std::ios::trunc);
+
+	if(!log_file.is_open())
+	{
+		std::cout << "Failed to open log file" << std::endl;
+	}
+	else
+	{
+		std::cout << "Initialized log file" << std::endl;
+	}
+}
+
+void close_log_file() { log_file.close(); }

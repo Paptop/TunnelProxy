@@ -6,11 +6,17 @@
 int tapfd = 0;
 int fds = 0;
 
+void clean()
+{
+	close_fd(fds);
+	close_fd(tapfd);
+	close_log_file();
+}
+
 void on_signal(int sig)
 {
 	printf("Received signal %d\n", sig);
-	close_fd(fds);
-	close_fd(tapfd);
+	clean();
 	exit(1);
 }
 
@@ -18,10 +24,11 @@ int main(int argc, char** argv)
 {
 	if(argc <= 1 || argc > 3)
 	{
-		printf("Wrong usage\n");
+		printf("usage: %s [ tun/tap interface ip ] [udp port]\n", argv[0]); 
 		exit(1);
 	}
 
+	open_log_file();
 	on_sys_signal(on_signal);
 
 	const char* ip = argv[1];
@@ -41,5 +48,6 @@ int main(int argc, char** argv)
   fds = open_socket_udp(ip, iPort);	
 	read_socket_to_console(fds);
 
+	clean();
 	return 0;
 }
