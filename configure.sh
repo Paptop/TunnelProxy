@@ -27,6 +27,9 @@ sudo ip link set tap0 master tapbr
 #add to route
 sudo route add default gw 192.168.0.1 dev tapbr 
 
+#enable packet forwarding
+sudo sysctl -w net.ipv4.ip_forward=1
+
 #forward packets to udp port
 `sudo iptables -A INPUT -i tap0 -p udp --dport $3 -j ACCEPT`
 `sudo iptables -t nat -A PREROUTING -i tapbr -p udp -j DNAT --to-destination $2:$3`
