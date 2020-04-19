@@ -40,7 +40,8 @@ int main(int argc, char** argv)
 
 	if(tapfd < 0)
 	{
-		perror("error opening tap interface");
+		perror("Error opening tap interface");
+		clean();
 		exit(1);
 	}
 

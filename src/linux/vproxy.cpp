@@ -43,6 +43,36 @@ void assemble_sockaddr(struct sockaddr_in* addr, const char* ip, int port)
 	inet_aton(ip, &addr->sin_addr);
 }
 
+int configure_dev(struct ifreq* ifr, const char* ip)
+{
+	int sock;
+   
+	if((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+	{ 
+		perror("Failed to open socket");
+		return -1;
+	}
+   
+	if(ioctl(sock, SIOCSIFFLAGS, ifr) < 0)
+	{ 
+		perror("Cannot set flags");
+		close(sock);
+		return -1;
+	}
+
+	assemble_sockaddr((struct sockaddr_in*)&ifr->ifr_addr, ip, -1);
+
+	if(ioctl(sock, SIOCSIFADDR, ifr) < 0)
+	{
+		perror("Cannot set IP address. ");
+		close(sock);
+		return -1;
+	}
+
+	close(sock);
+	return 0;
+}
+
 int open_dev(const char* dev, int flags, const char* ip)
 {
 	struct ifreq ifr;
@@ -71,32 +101,13 @@ int open_dev(const char* dev, int flags, const char* ip)
 		close(fd);
 		return err;
 	}
- 
-	int sock;
-   
-	if((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-	{ 
-		perror("Failed to open socket");
-		exit(1);
-	}
-   
-	if(ioctl(sock, SIOCSIFFLAGS, &ifr) < 0)
-	{ 
-		perror("Cannot set flags");
-		close(sock);
-		exit(1);
-	}
 
-	assemble_sockaddr( (struct sockaddr_in*)&ifr.ifr_addr, ip, -1);
-
-	if(ioctl(sock, SIOCSIFADDR, &ifr) < 0)
+	if( configure_dev(&ifr, ip) < 0)
 	{
-		perror("Cannot set IP address. ");
-		close(sock);
-		exit(1);
+		perror("Failed interface configuration");
+		close(fd);
+		return -1;
 	}
-
-	close(sock);
 
 	return fd;
 }
