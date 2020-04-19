@@ -152,7 +152,6 @@ void read_socket_to_console(int fd)
 
 		if(log_file.is_open())
 		{
-			printf("Pushing to log file ...\n");
 			log_file << info;
 		}
 

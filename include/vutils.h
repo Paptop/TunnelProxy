@@ -6,7 +6,7 @@
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
-const int VLINELENGTH = 48;
+const int VLINELENGTH = 49;
 
 std::string make_readable_format(const uchar* buffer, int size, bool bhex = true);
 std::string make_line(int len = VLINELENGTH);

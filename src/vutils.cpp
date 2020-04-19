@@ -18,6 +18,9 @@ std::string make_readable_format(const uchar* buffer, int size, bool bhex)
 
   for(int i = 0; i < size; ++i)
   {
+		const bool is_last_byte = (i + 1) % line_size == 0; 
+		const bool is_the_middle = !is_last_byte && (i + 1) % column_size == 0;
+
     if(bhex)
     {
       ss << std::hex;
@@ -28,25 +31,29 @@ std::string make_readable_format(const uchar* buffer, int size, bool bhex)
 
     if(bhex)
     {
-      ss << (uint)buffer[i] << " ";
+      ss << (uint)buffer[i];
     }
     else if(isalnum(buffer[i]))
     {
-      ss << (char)buffer[i] << " ";
+      ss << (char)buffer[i];
     }
     else
     {
-      ss << "." << " ";
+      ss << ".";
     }
 
-    if( (i + 1) % column_size  == column_size)
+		if(!is_last_byte)
+		{
+			ss << " ";
+		}
+		else
+		{
+      ss << "|" << std::endl << "|";
+		}
+
+    if(is_the_middle)
     {
       ss << "  ";
-    }
-
-    if( (i + 1) % line_size == 0)
-    {
-      ss << "|" << std::endl << "|";
     }
   }
 
@@ -86,7 +93,7 @@ std::string make_sentence(const char* prefix, uint data, bool bTopline)
 	prefix_str.append(data_str);
 
 	ss << "|";
-	ss << std::setw(VLINELENGTH / 2 + offset) << prefix_str;
+	ss << std::setw(VLINELENGTH / 2 + offset + 1) << prefix_str;
 	ss << std::setw(VLINELENGTH / 2 - offset / 2)  << "|\n";
 	ss << line;
 
