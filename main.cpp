@@ -178,15 +178,13 @@ int main(int argc, char** argv)
 
 	printf("Tun_alloc\n");
 
-  //tunfd = tun_alloc(tun_name, IFF_TAP | IFF_UP, ip, iPort);
+  tunfd = tun_alloc(tun_name, IFF_TAP | IFF_UP, ip, iPort);
 
-	/*
 	if(tunfd < 0)
 	{
 		perror("Allocationg interface");
 		exit(1);
 	}
-	*/
 
   open_socket(ip, iPort);	
 
